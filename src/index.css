@@ -40,7 +40,7 @@ button {
 }
 h1,
 h3 {
-  color: orangered !important;
+  color: orange !important;
   font-weight: 600 !important;
 }
 
@@ -49,9 +49,28 @@ label {
 }
 
 img {
-  height: 200px;
+  height: 150px;
 }
 
 div {
   border: 0px solid red;
+}
+.tiles div {
+  height: 40vh;
+  background-color: aliceblue;
+  color: orange !important;
+  font-weight: 900 !important;
+  margin: 30px !important;
+}
+
+.tiles div a {
+  color: orange !important;
+}
+
+.tiles div a :hover {
+  color: navy !important;
+}
+
+.header {
+  background-color: aliceblue;
 }

@@ -1,29 +1,28 @@
 const Landing = () => {
   return (
-    <div className="container">
-      <div className="row justify-content-end">
-        <div className="col-4">
-          <a href={`/products`}>
-            <button type="submit" className="btn btn-primary mb-3 bigButton">
-              MANAGE INVENTORY
-            </button>
-          </a>
+    <div className="container-fluid">
+      {localStorage.getItem("userRoles") === "Admin" && (
+        <div className="row  d-flex justify-content-center tiles">
+          <div className="col-3 shadow-sm border-light border-2 d-flex flex-column  d-flex justify-content-center d-flex align-items-center">
+            <a href={`/products`}>MANAGE INVENTORY</a>
+          </div>
+          <div className="col-3 panel shadow-sm border-light border-2 d-flex flex-column  d-flex justify-content-center d-flex align-items-center">
+            <a href={`/users`}>MANAGE USERS</a>
+          </div>
+          <div className="col-3 shadow-sm border-light border-2 d-flex flex-column  d-flex justify-content-center d-flex align-items-center">
+            <a href={`/store`}>STORE</a>
+          </div>
+          <div className="col-3 shadow-sm border-light border-2 d-flex flex-column  d-flex justify-content-center d-flex align-items-center">
+            <a href={`/orders`}>MANAGE ORDERS</a>
+          </div>
+          <div className="col-3 shadow-sm border-light border-2 d-flex flex-column  d-flex justify-content-center d-flex align-items-center">
+            <a href={`/store`}>STORE</a>
+          </div>
+          <div className="col-3 shadow-sm border-light border-2 d-flex flex-column  d-flex justify-content-center d-flex align-items-center">
+            <a href={`/store`}>STORE</a>
+          </div>
         </div>
-        <div className="col-4">
-          <a href={`/users`}>
-            <button type="submit" className="btn btn-primary mb-3 bigButton">
-              MANAGE USERS
-            </button>
-          </a>
-        </div>
-        <div className="col-4">
-          <a href={`/store`}>
-            <button type="submit" className="btn btn-primary mb-3 bigButton">
-              STORE
-            </button>
-          </a>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
