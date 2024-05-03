@@ -13,11 +13,14 @@ import EditProduct from "./pages/Product/EditProduct";
 import StoreLanding from "./pages/Store/MainPage";
 import CartDetails from "./pages/Store/CartDetails";
 import Orders from "./pages/Store/Orders";
+import ProductDetailCustomer from "./pages/Store/ProductDetailCustomer";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Main from "./pages/Main";
 import {
   productsLoader,
   productLoader,
   productsCartLoader,
-  cartLoader,
   productCartLoader,
   ordersLoader,
 } from "./loaders";
@@ -29,12 +32,17 @@ import {
   deleteCartItemAction,
   updateCartItemAction,
   createOrder,
+  loginAction,
 } from "./actions";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="" element={<Landing />} />
+      <Route path="" element={<Main />}>
+        <Route path="signup" element={<Signup />} />
+        <Route path="login" element={<Login />} action={loginAction} />
+      </Route>
+      <Route path="/admin" element={<Landing />} />
       <Route
         path="/store"
         element={<StoreLanding />}
@@ -44,6 +52,11 @@ const router = createBrowserRouter(
       <Route
         path="/products/:id"
         element={<ProductDetails />}
+        loader={productLoader}
+      />
+      <Route
+        path="/products/customer/:id"
+        element={<ProductDetailCustomer />}
         loader={productCartLoader}
       />
       <Route
@@ -58,16 +71,26 @@ const router = createBrowserRouter(
         loader={productLoader}
       />
       <Route path="/products/delete/:id" action={deleteProductAction} />
-      <Route path="/cart/add/:id" action={addProductToCartAction} />
+      <Route
+        path="/cart/add/:productid/:userid"
+        action={addProductToCartAction}
+      />
       <Route
         path="/cart/:id"
         element={<CartDetails />}
         loader={productsCartLoader}
       />
-      <Route path="/cart/update/:id" action={updateCartItemAction} />
+      <Route
+        path="/cart/update/:productid/:cartid"
+        action={updateCartItemAction}
+      />
       <Route path="/cart/delete/:id" action={deleteCartItemAction} />
       <Route path="/order/:ids" action={createOrder} />
-      <Route path="/order/user/:userid" element={<Orders />} loader={ordersLoader} />
+      <Route
+        path="/order/user/:userid"
+        element={<Orders />}
+        loader={ordersLoader}
+      />
     </Route>
   )
 );

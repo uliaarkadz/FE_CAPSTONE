@@ -1,38 +1,65 @@
-import React from "react";
 import { Button } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+
 function Header() {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
   return (
-    <div className="container">
-      <div className="row justify-content-start">
-        <a href={`/`}>
-          <div className="col-12 align-items-center">
-            <h1>My STORE</h1>
-          </div>
-        </a>
-      </div>
-      <div className="row justify-content-start">
-        <div className="col-3 align-items-center">
+    <div className="container-fluid header pb-6">
+      {pathname !== "/" && (
+        <div className="d-flex justify-content-center">
           <a href={`/`}>
-            <button type="submit" className="btn btn-primary bigButton">
-              HOME
-            </button>
+            <h1>AMAZingSTORE</h1>
           </a>
         </div>
-        <div className="col-3 align-items-center">
-          <a href={`/store`}>
-            <button type="submit" className="btn btn-primary bigButton">
-              STORE
-            </button>
-          </a>
+      )}
+      {pathname !== "/" && (
+        <div>
+          {localStorage.getItem("token") && (
+            <div className="row d-flex justify-content-center">
+              {localStorage.getItem("userRoles") === "Admin" && (
+                <div className="col-2 d-flex justify-content-evenly">
+                  <a href={`/admin`}>
+                    <Button type="submit" className="btn btn-primary bigButton">
+                      HOME ADMIN
+                    </Button>
+                  </a>
+                </div>
+              )}
+              <div className="col-2 d-flex justify-content-evenly">
+                <a href={`/store`}>
+                  <Button type="submit" className="btn btn-primary bigButton">
+                    HOME
+                  </Button>
+                </a>
+              </div>
+
+              <div className="col-2 d-flex justify-content-evenly">
+                <a href={`/order/user/${4}`}>
+                  <Button type="submit" className="btn btn-primary bigButton">
+                    MY ORDERS
+                  </Button>
+                </a>
+              </div>
+              {/* <div className="col-2 d-flex justify-content-evenly">
+                <CartButton data={products.cart} />
+              </div> */}
+              <div className="col-2 d-flex justify-content-evenly">
+                <Button
+                  className="btn btn-primary bigButton"
+                  onClick={() => {
+                    localStorage.clear();
+                    navigate("/");
+                  }}
+                >
+                  LOGOUT
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="col-4">
-          <a href={`/order/user/${4}`}>
-            <Button type="submit" className="btn btn-primary bigButton">
-              MY ORDERS
-            </Button>
-          </a>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

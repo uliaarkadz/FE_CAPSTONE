@@ -16,9 +16,9 @@ export const DetailsButton = () => {
   );
 };
 
-export const AddButton = ({ data }) => {
+export const AddButton = ({ data, value }) => {
   return (
-    <Button type="submit" className="btn bg-transparent">
+    <Button type="submit" className="btn bg-transparent" form={value}>
       <FontAwesomeIcon icon={faPlus} size="2xl" style={{ color: "#115641" }} />
     </Button>
   );
@@ -33,7 +33,6 @@ export const DeleteButton = ({ data }) => {
 };
 
 export const EditButton = ({ data, value }) => {
-  console.log(value);
   return (
     <Button type="submit" form={value} className="btn btn-primary">
       <FontAwesomeIcon icon={faPenToSquare} />

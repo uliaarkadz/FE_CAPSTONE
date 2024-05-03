@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-
+import desposeSession from "./helpers";
 const URL = process.env.REACT_APP_URL;
 
 export const createProductAction = async ({ request }) => {
@@ -13,14 +13,15 @@ export const createProductAction = async ({ request }) => {
     inventory: formData.get("inventory"),
   };
 
-  await fetch(`${URL}/api/products`, {
+  const response = await fetch(`${URL}/api/products`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     body: JSON.stringify(createdProduct),
   });
-
+  desposeSession(response);
   return redirect("/products");
 };
 
@@ -35,80 +36,88 @@ export const editProductAction = async ({ request, params }) => {
     inventory: formData.get("inventory"),
   };
 
-  await fetch(`${URL}/api/products/${params.id}`, {
+  const response = await fetch(`${URL}/api/products/${params.id}`, {
     method: "put",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     body: JSON.stringify(updatedProduct),
   });
-
+  desposeSession(response);
   return redirect("/products");
 };
 
 export const deleteProductAction = async ({ params }) => {
-  await fetch(`${URL}/api/products/${params.id}/`, {
+  const response = await fetch(`${URL}/api/products/${params.id}/`, {
     method: "delete",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
   });
-
+  desposeSession(response);
   return redirect("/products");
 };
 
 export const addProductToCartAction = async ({ request, params }) => {
+  //validate if product in the cart
+  // const responseCart = await fetch(`${URL}/api/cart/4`);
+  // const cart = await responseCart.json();
+
   const formData = await request.formData();
+
   const addedCartProduct = {
-    productId: formData.get("productId"),
+    productId: params.productid,
     quantity: formData.get("quantity"),
     isProccesed: false,
   };
 
-  await fetch(`${URL}/api/cart/${params.id}`, {
+  const response = await fetch(`${URL}/api/cart/${params.userid}`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     body: JSON.stringify(addedCartProduct),
   });
-
+  desposeSession(response);
   return redirect("/store");
 };
 
 export const updateCartItemAction = async ({ request, params }) => {
+  console.log(params);
   const formData = await request.formData();
   const updatedCartProduct = {
-    productId: formData.get("productId"),
+    productId: params.productid,
     quantity: formData.get("quantity"),
   };
 
-  await fetch(`${URL}/api/cart/4/${params.id}`, {
+  const response = await fetch(`${URL}/api/cart/4/${params.cartid}`, {
     method: "put",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(updatedCartProduct),
   });
-
+  desposeSession(response);
   return redirect("/cart/4");
 };
 
 export const deleteCartItemAction = async ({ params }) => {
-  await fetch(`${URL}/api/cart/4/${params.id}/`, {
+  const response = await fetch(`${URL}/api/cart/4/${params.id}/`, {
     method: "delete",
   });
-
+  desposeSession(response);
   return redirect("/cart/4");
 };
 
 export const createOrder = async ({ request, params }) => {
-  console.log(Object.values(params));
-
   const formDataOrder = await request.formData();
   const createdOrder = {
     orderStatus: formDataOrder.get("orderStatus"),
     userId: 4,
   };
 
-  //const formDataCart = await request.formData();
   const updatedCartProduct = [
     {
       op: "replace",
@@ -120,26 +129,56 @@ export const createOrder = async ({ request, params }) => {
     .replace('["', "")
     .replace('"]', "")
     .split(",");
-  console.log(cartIds);
-  console.log(typeof Number(cartIds[0]));
+
   for (let i = 0; i < cartIds.length; i++) {
     let id = Number(cartIds[i]);
-    // console.log(id);
-    await fetch(`${URL}/api/order/${id}`, {
+
+    const responseOrder = await fetch(`${URL}/api/order/${id}`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(createdOrder),
     });
-
-    await fetch(`${URL}/api/cart/4/${id}`, {
+    desposeSession(responseOrder);
+    const responseCart = await fetch(`${URL}/api/cart/4/${id}`, {
       method: "patch",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(updatedCartProduct),
     });
+    desposeSession(responseCart);
   }
   return redirect("/store");
+};
+
+export const loginAction = async ({ request }) => {
+  const formData = await request.formData();
+  //build out the object that we will sending to /login
+  const newUser = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+  };
+
+  //make the request to login
+  const response = await fetch(`${URL}/api/authentication/login`, {
+    method: "POST",
+    body: JSON.stringify(newUser),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  desposeSession(response);
+  const data = await response.json();
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("userRoles", data.roles);
+
+  if (data.roles == "Admin") {
+    return redirect("/admin");
+  } else {
+    return redirect("/store");
+  }
 };

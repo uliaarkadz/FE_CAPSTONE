@@ -1,7 +1,8 @@
 import { Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+
+import { Link } from "react-router-dom";
 
 function CartButton({ data }) {
   function totalCartItems(...data) {
@@ -13,17 +14,15 @@ function CartButton({ data }) {
   }
 
   return (
-    <div className="row justify-content-end">
-      <div className="col-4">
-        <a href={`/cart/${"4"}`}>
-          <Button
-            type="submit"
-            className="btn btn-primary border-light bigButton"
-          >
-            <FontAwesomeIcon icon={faCartShopping} />({totalCartItems(...data)})
-          </Button>
-        </a>
-      </div>
+    <div>
+      <Link to={localStorage.getItem("token") ? `/cart/${"4"}` : "/"}>
+        <Button
+          type="submit"
+          className="btn btn-primary border-light bigButton"
+        >
+          <FontAwesomeIcon icon={faCartShopping} />({totalCartItems(...data)})
+        </Button>
+      </Link>
     </div>
   );
 }
