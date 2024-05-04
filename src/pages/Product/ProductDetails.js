@@ -1,6 +1,4 @@
-import { useLoaderData, Form } from "react-router-dom";
-import React, { useState } from "react";
-import CartButton from "../../components/CartButton";
+import { useLoaderData } from "react-router-dom";
 
 const ProductDetails = () => {
   const product = useLoaderData();
@@ -30,7 +28,7 @@ const ProductDetails = () => {
         </div>
         <div className="col-6 p-3 bg-light d-flex justify-content-center">
           <label>Image:</label>
-          <img src={product.image} />
+          <img src={product.image} alt="product" />
         </div>
         <div className="col-6 p-3 bg-light d-flex justify-content-center">
           <label>Quantity:</label>

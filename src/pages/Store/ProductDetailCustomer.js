@@ -1,9 +1,8 @@
 import { useLoaderData, Form } from "react-router-dom";
-import React, { useState } from "react";
 import CartButton from "../../components/CartButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import { Button, Modal } from "react-bootstrap";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "react-bootstrap";
 
 const ProductDetailCustomer = () => {
   const productDetails = useLoaderData();
@@ -15,6 +14,11 @@ const ProductDetailCustomer = () => {
           <h3>PRODUCT INFO</h3>
         </div>
       </div>
+      <div className="row  d-flex justify-content-end">
+        <div className="col-3">
+          <CartButton data={productDetails.cart} />
+        </div>
+      </div>
       <div className="product d-flex justify-content-center">
         <div className="d-flex flex-column border patients col-6">
           <label className="ps-3">Name:</label>
@@ -23,7 +27,7 @@ const ProductDetailCustomer = () => {
           </div>
           <label className="ps-3">Image:</label>
           <div className="col-auto p-3 bg-light  d-flex align-items-center justify-content-center">
-            <img src={productDetails.product.image} />
+            <img src={productDetails.product.image} alt="product" />
           </div>
           <label className="ps-3">Description:</label>
           <div className="col-auto p-3 bg-light d-flex align-items-center justify-content-center ">

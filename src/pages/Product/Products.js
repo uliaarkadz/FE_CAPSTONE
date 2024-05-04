@@ -40,7 +40,7 @@ const Products = () => {
               ${product.price}
             </div>
             <div className="col d-flex flex-column  d-flex justify-content-between d-flex align-items-center">
-              <img src={product.image} />
+              <img src={product.image} alt="product" />
             </div>
             <div className="col d-flex flex-column  d-flex justify-content-between d-flex align-items-center">
               {product.inventory}

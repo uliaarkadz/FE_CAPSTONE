@@ -16,6 +16,7 @@ import Orders from "./pages/Store/Orders";
 import ProductDetailCustomer from "./pages/Store/ProductDetailCustomer";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import SignupAdmin from "./pages/SignupAdmin";
 import Main from "./pages/Main";
 import {
   productsLoader,
@@ -33,15 +34,21 @@ import {
   updateCartItemAction,
   createOrder,
   loginAction,
+  signUpAction,
+  signUpAdminAction,
 } from "./actions";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="" element={<Main />}>
-        <Route path="signup" element={<Signup />} />
-        <Route path="login" element={<Login />} action={loginAction} />
-      </Route>
+      <Route path="" element={<Main />} />
+      <Route path="signup" element={<Signup />} action={signUpAction} />
+      <Route path="login" element={<Login />} action={loginAction} />
+      <Route
+        path="signup/admin"
+        element={<SignupAdmin />}
+        action={signUpAdminAction}
+      />
       <Route path="/admin" element={<Landing />} />
       <Route
         path="/store"
