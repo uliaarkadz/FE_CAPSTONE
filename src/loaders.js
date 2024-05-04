@@ -61,6 +61,18 @@ export const productCartLoader = async ({ params }) => {
 };
 
 export const ordersLoader = async ({ params }) => {
+  const responseProduct = await fetch(`${URL}/api/products`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  desposeSession(responseProduct);
+
+  const products = await responseProduct.json();
+  const responseCart = await fetch(`${URL}/api/cart/4`);
+  desposeSession(responseCart);
+  const carts = await responseCart.json();
+
   const response = await fetch(`${URL}/api/order/user/4`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -69,5 +81,5 @@ export const ordersLoader = async ({ params }) => {
   desposeSession(response);
   const orders = await response.json();
 
-  return orders;
+  return { orders, products, carts };
 };

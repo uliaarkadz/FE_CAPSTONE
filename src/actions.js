@@ -141,7 +141,7 @@ export const createOrder = async ({ request, params }) => {
       },
       body: JSON.stringify(createdOrder),
     });
-    desposeSession(responseOrder);
+
     const responseCart = await fetch(`${URL}/api/cart/4/${id}`, {
       method: "patch",
       headers: {
@@ -149,8 +149,8 @@ export const createOrder = async ({ request, params }) => {
       },
       body: JSON.stringify(updatedCartProduct),
     });
-    desposeSession(responseCart);
   }
+
   return redirect("/store");
 };
 
@@ -176,7 +176,65 @@ export const loginAction = async ({ request }) => {
   localStorage.setItem("token", data.token);
   localStorage.setItem("userRoles", data.roles);
 
-  if (data.roles == "Admin") {
+  if (data.roles === "Admin") {
+    return redirect("/admin");
+  } else {
+    return redirect("/store");
+  }
+};
+
+export const signUpAction = async ({ request }) => {
+  const formData = await request.formData();
+  //build out the object that we will sending to /login
+  const newUser = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+  };
+
+  //make the request to login
+  const response = await fetch(`${URL}/api/authentication/signup`, {
+    method: "POST",
+    body: JSON.stringify(newUser),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  desposeSession(response);
+  const data = await response.json();
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("userRoles", data.roles);
+
+  if (data.roles === "Admin") {
+    return redirect("/admin");
+  } else {
+    return redirect("/store");
+  }
+};
+
+export const signUpAdminAction = async ({ request }) => {
+  const formData = await request.formData();
+  //build out the object that we will sending to /login
+  const newUser = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+  };
+
+  //make the request to login
+  const response = await fetch(`${URL}/api/authentication/signup`, {
+    method: "POST",
+    body: JSON.stringify(newUser),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  desposeSession(response);
+  const data = await response.json();
+
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("userRoles", data.roles);
+
+  if (data.roles === "Admin") {
     return redirect("/admin");
   } else {
     return redirect("/store");

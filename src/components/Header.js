@@ -6,9 +6,9 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <div className="container-fluid header pb-6">
+    <div className="container-fluid header">
       {pathname !== "/" && (
-        <div className="d-flex justify-content-center">
+        <div className="m-3 d-flex justify-content-center">
           <a href={`/`}>
             <h1>AMAZingSTORE</h1>
           </a>
@@ -30,7 +30,7 @@ function Header() {
               <div className="col-2 d-flex justify-content-evenly">
                 <a href={`/store`}>
                   <Button type="submit" className="btn btn-primary bigButton">
-                    HOME
+                    STORE
                   </Button>
                 </a>
               </div>
@@ -42,9 +42,6 @@ function Header() {
                   </Button>
                 </a>
               </div>
-              {/* <div className="col-2 d-flex justify-content-evenly">
-                <CartButton data={products.cart} />
-              </div> */}
               <div className="col-2 d-flex justify-content-evenly">
                 <Button
                   className="btn btn-primary bigButton"

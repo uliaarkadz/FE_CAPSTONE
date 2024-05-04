@@ -1,25 +1,22 @@
 import { Form } from "react-router-dom";
 import { PasswordInput, UserNameInput } from "../components/LoginComponents";
-const Login = () => {
+const SignupAdmin = () => {
   return (
     <div className="container-fluid">
-      <div className="p-2 border-light border-3 d-flex flex-column align-items-center justify-content-center">
-        <div className="column d-flex justify-content-center">
-          <h2> Input your credentials to login</h2>
-        </div>
+      <div className="p-3 border-light border-3 d-flex flex-column align-items-center justify-content-center">
         <Form action="/login" method="POST">
-          <div className="p-5 border-light border-3 d-flex flex-column align-items-center justify-content-center">
+          <div className="p-4 border-light border-3 d-flex flex-column align-items-center justify-content-center">
             <div className="col-auto">
               <UserNameInput />
             </div>
             <div className="col-auto">
               <PasswordInput />
             </div>
-            <div className="col-auto align-items-center">
+            <div className="col-auto">
               <input
                 className="btn btn-primary m-3"
                 type="submit"
-                value="LOGIN"
+                value="SIGNUP"
               ></input>
             </div>
           </div>
@@ -29,4 +26,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignupAdmin;
